@@ -116,7 +116,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 ![Schéma bloc de l'affichage de l'image](images/image.png)
 
 
-### **5. Simulations**
+### **6. Simulations**
 
 
 
@@ -130,7 +130,7 @@ Grâce à cette simulation, nous avons pu **valider la cohérence des transferts
 
 
 
-### **6. Rôle des scripts Python dans la transmission de l'image via UART**
+### **7. Rôle des scripts Python dans la transmission de l'image via UART**
 
 Dans le cadre de ce projet, plusieurs scripts Python ont été utilisés pour établir une communication entre le PC et le FPGA via l'interface UART, gérer la transmission des données sous forme d'images, appliquer un bruit contrôlé et effectuer des opérations d'encodage et de décodage, notamment avec le Viterbi.
 
@@ -243,7 +243,7 @@ print("✅ Match:", expected_encoded == actual_encoded)
 ```
 
 
-### **7. Résultats et observations**
+### **8. Résultats et observations**
 
 
 
@@ -261,7 +261,7 @@ print("✅ Match:", expected_encoded == actual_encoded)
 
 
 
-### **8. Conclusion**
+### **9. Conclusion**
 
 Ce projet de démonstration d'un système de transmission avec détection et correction d'erreurs a permis de valider l'implémentation d'un système complet basé sur l'architecture FPGA Nexys 4, combinant traitement matériel et logiciel pour la transmission d'images à travers un canal bruité. L'intégration des différentes parties du démonstrateur — émetteur, canal, et récepteur — a été réalisée avec succès, permettant de transmettre des images tout en appliquant un codage convolutif de type Viterbi pour la correction des erreurs dues au bruit.
 
