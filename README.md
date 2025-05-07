@@ -1,6 +1,6 @@
 
 
-## 📝 **Plan du Rapport Global du Démonstrateur**
+##  **Plan du Rapport Global du Démonstrateur**
 
 ---
 
