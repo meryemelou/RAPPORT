@@ -12,20 +12,40 @@ L’architecture repose sur la transmission d’une image depuis un émetteur ve
 
 La communication série entre les différents composants (émetteur, canal, récepteur) est assurée via UART. L’ensemble du système est composé des modules VHDL pour le traitement temps réel (affichage, encodage, décodage) et des scripts Python pour l'envoi d'image et le pilotage des transferts. Ce travail a été réalisé dans le cadre du projet de démonstration d’un système de transmission avec détection et correction d’erreurs.
 
----
+
 
 ### **2. Architecture globale du démonstrateur**
 
-* **Figure schématique globale du système**
-  (Diagramme bloc montrant les 3 FPGA/PC, leurs connexions UART, modules PMOD, etc.)
-* Description globale de l’architecture :
+#### **Figure schématique globale du système**
 
-  * Émetteur (image + encodeur)
-  * Canal (PC qui simule le bruit/SNR)
-  * Récepteur (decodeur + affichage OLED)
-* Communication via UART entre les blocs
+Le démonstrateur repose sur une architecture en trois parties principales réparties sur trois plateformes FPGA Nexys 4, chacune connectée à un PC. La communication entre les différentes cartes se fait via l’interface UART. L’image transmise traverse successivement les étapes d’émission, de bruitage (canal) et de réception avec correction d’erreurs, chacune étant visualisable à l’écran PMOD OLED connecté à chaque carte.
 
----
+*(Insérer ici un diagramme bloc illustrant les 3 FPGA/PC, les connexions UART, les modules PMOD OLED, et les blocs fonctionnels : encodeur, canal bruité, décodeur.)*
+
+
+
+#### **Description globale de l’architecture**
+
+Le démonstrateur a pour objectif de représenter une chaîne de communication numérique avec visualisation de l'effet des erreurs de transmission et de leur correction sur une image.
+
+* **Émetteur (FPGA 1)**
+  Le premier FPGA reçoit une image depuis un PC via UART. Cette image est d’abord affichée sur un écran OLED connecté à la carte pour visualiser la version originale. Ensuite, elle est encodée à l’aide d’un **codeur convolutif** (type Viterbi) et transmise à la deuxième carte FPGA par liaison série.
+
+* **Canal de transmission bruité (FPGA 2 / PC 2)**
+  La deuxième carte FPGA (ou le PC associé) reçoit les données encodées, puis applique un **bruit gaussien** avec un SNR contrôlable pour simuler un canal de transmission réel (bruit blanc additif). L’image bruitée est ensuite affichée pour montrer les erreurs introduites, puis transmise à la troisième carte.
+
+* **Récepteur (FPGA 3)**
+  La troisième carte reçoit les données bruitées. Un **décodeur Viterbi** permet de corriger les erreurs induites par le canal. L’image finale décodée est affichée à l’écran OLED, ce qui permet de comparer visuellement l’image originale, bruitée et corrigée.
+
+
+#### **Communication UART entre les blocs**
+
+Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC sont réalisés via des interfaces UART, implémentées en VHDL. Ces liaisons série permettent un transfert de données simple, synchrone et efficace, facilitant le test et la validation de chaque étage indépendamment. L’ensemble de l’architecture est modulaire, ce qui permet de tester séparément l’émission, le canal et la réception.
+
+
+
+
+
 
 ### **3. Fonctionnalité globale du démonstrateur**
 
