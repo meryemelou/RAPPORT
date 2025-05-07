@@ -118,16 +118,14 @@ Enfin, les octets corrigés sont envoyés vers un écran OLED connecté à la ca
 
 ### **5. Simulations**
 
-* Résultats des TB :
 
-  * UART : validité des trames
-  * OLED : synchronisation des pixels
-  * Encodeur : bits de sortie corrects
-  * Viterbi : récupération de l’image
-* Capture des formes d’ondes pertinentes (si disponible)
-* Résumé des performances simulées
 
----
+Afin de valider le bon fonctionnement de notre système de transmission de données, une **simulation complète a été réalisée** à l’aide d’un banc d’essai VHDL. Le fichier de test `tb_top_level.vhd` simule l’interconnexion des différents blocs du système, incluant l’encodage convolutif, l’ajout de bruit contrôlé via un paramètre `snr`, et le décodage Viterbi. Cette simulation permet de vérifier **le comportement temporel et logique** de l’ensemble du système sans recourir immédiatement au matériel FPGA.
+
+Le `testbench` génère un **signal d’horloge (clk)** avec une période définie (10 ns), simule un **reset** initial, puis active progressivement les signaux de contrôle (`enable`, `dat`, `snr`) dans un scénario temporel réaliste. Le signal `snr` est configuré à sa valeur maximale (`"111111"`) pour observer le comportement du système dans un environnement fortement bruité. Le banc d’essai permet de vérifier que les données sont correctement transmises, encodées, perturbées par un bruit simulé, puis **corrigées par le décodeur Viterbi**.
+
+Grâce à cette simulation, nous avons pu **valider la cohérence des transferts de données vers la RAM** pour l’affichage, ainsi que le bon fonctionnement des modules d’**encodage** et de **décodage**. Elle nous a permis de détecter et corriger d’éventuelles erreurs de synchronisation ou de logique, avant l’implémentation matérielle sur les FPGA.
+
 
 
 ### **7. Rôle des scripts Python**
