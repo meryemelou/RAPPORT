@@ -116,6 +116,51 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 ![Schéma bloc de l'affichage de l'image](images/image.png)
 
 
+
+
+### **5. Description des modules VHDL détaillée**
+
+
+
+### **Partie 1 : Affichage de l'image sur un écran OLED RGB**
+
+1. **Fichier VHDL pour la gestion de l'affichage** :
+
+   * **`RAM_IMAGE.vhd`** : Module pour le stockage de l’image dans la RAM.
+   * **`Image_Display.vhd`** : Module pour la gestion de l’affichage des pixels sur l'écran OLED RGB.
+
+
+
+### **Partie 2 : Encodage des données (Viterbi Encoder)**
+
+1. **Fichier VHDL pour l'encodeur Viterbi (1 bit)** :
+
+   * **`viterbi_encoder.vhd`** : Module pour l'encodage Viterbi à 1 bit.
+
+2. **Fichier VHDL pour l'encodeur Viterbi (8 bits)** :
+
+   * **`viterbi_encoder_8bits.vhd`** : Module pour l'encodage Viterbi à 8 bits.
+
+
+### **Partie 3 : Simulation de bruit (Canal AWGN)**
+
+1. **Fichier VHDL pour la simulation de bruit** :
+
+   * **`awgn_channel.vhd`** : Module pour la simulation de bruit gaussien additif (AWGN) dans le canal de communication.
+
+
+
+### **Partie 4 : Décodage des données (Viterbi Decoder)**
+
+1. **Fichier VHDL pour le décodeur Viterbi** :
+
+   * **`viterbi_decoder.vhd`** : Module pour le décodage Viterbi des données reçues.
+
+
+
+
+
+
 ### **6. Simulations**
 
 
