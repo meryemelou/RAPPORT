@@ -88,31 +88,33 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
 ### **4. Description des modules VHDL**
 
-#### 4.1 Modules principaux
 
-* `bitmap.vhd` : Lecture des données d'image
-* `image_display.vhd` : Envoi vers l’OLED (affichage)
-* `uart_tx.vhd` / `uart_rc.vhd` : Transmission série UART
-* `encoder.vhd` : Codage (ex: convolutionnel)
-* `viterbi_decoder.vhd` : Décodage
+## **Fonctionnalité globale de l’émetteur, du canal et du récepteur**
 
+### **Émetteur (FPGA 1)**
 
-ici on doit citer quand on va utiliser deux uart rx, et quand on va utiliser les deux uart tx
+Le rôle principal de l’émetteur est d’assurer la réception, l’encodage et l’envoi de l’image. Dans un premier temps, une image est transmise depuis un PC vers la carte FPGA via une interface UART, octet par octet. Ces données sont stockées dans une mémoire RAM locale, puis l’image originale est affichée sur un écran OLED afin d’avoir un aperçu de la qualité initiale.
+
+Ensuite, chaque octet est encodé bit par bit à l’aide d’un **codeur convolutif** (Viterbi encoder), dont l’objectif est d’introduire de la redondance pour rendre la transmission plus robuste face aux erreurs. Le module `encode8` effectue ce traitement : il extrait chaque bit de l’octet, l’encode à l’aide d’un module `viterbi_encoder`, puis génère deux octets de sortie (`x1_byte`, `x2_byte`) correspondant aux deux symboles codés. Ce mécanisme permet de doubler les données à transmettre, mais augmente fortement la capacité de correction au niveau du récepteur. Une fois le codage terminé, les données sont prêtes à être transmises à la carte suivante via une liaison série.
 
 
-#### 4.2 Modules de testbench
+### **Canal de transmission bruité (FPGA 2 / PC 2)**
 
-* Objectif des testbenchs
-* Ce qui a été simulé :
+Le canal représente une simulation d’un environnement de transmission réel où les données peuvent être altérées. Ce rôle peut être assuré soit par une deuxième carte FPGA, soit par un logiciel PC. Les octets encodés provenant de l’émetteur sont reçus, puis **un bruit gaussien additif (AWGN)** est appliqué pour simuler une dégradation du signal, typique d’un canal analogique.
 
-  * UART
-  * Affichage image
-  * Encodeur/décodeur (1 bit, puis 8 bits)
-* Limitations visualisées (latence, erreurs, limites de correction)
+Ce bruit est contrôlé par un paramètre SNR (Signal-to-Noise Ratio), qui permet de varier l’intensité du bruit injecté dans le signal. Une fois bruitées, les données sont affichées (image dégradée) puis renvoyées à la troisième carte (récepteur). Cette étape permet d’observer l’impact des perturbations sur une transmission non protégée.
 
 
-on a tester la transmissions des bits pour la ram
----
+### **Récepteur et Décodage (FPGA 3)**
+
+Le récepteur a pour rôle de récupérer les données bruitées, de les décoder, puis de reconstruire l’image originale. Pour cela, il s’appuie sur un **décodage convolutif de type Viterbi**, capable de corriger les erreurs introduites par le bruit durant la transmission. Afin de permettre un traitement précis et contrôlé, une **ROM nommée `rom_sigma`** est utilisée. Cette mémoire contient des valeurs prédéfinies de sigma (écart-type du bruit), utilisées pour moduler la réponse du décodeur selon les conditions de bruit simulées. Elle permet d’ajuster dynamiquement la sensibilité du décodage en fonction du niveau de bruit reçu, en se basant sur une entrée `sb` (signal binaire) représentant un index de configuration.
+
+En complément, un module `data_serializer` est utilisé pour **désérialiser les données** reçues. Les bits reçus en série sont regroupés en octets et stockés dans une mémoire tampon. Une fois reconstitués, ces octets sont présentés au décodeur Viterbi, qui applique son algorithme de correction basé sur les treillis de transition d’états. Ce processus permet de retrouver les données d’origine avec une grande fiabilité, malgré la dégradation subie par le canal.
+
+Enfin, les octets corrigés sont envoyés vers un écran OLED connecté à la carte FPGA, permettant de visualiser l’image restaurée. Ce mécanisme de comparaison entre l’image originale, bruitée et décodée offre une démonstration concrète de l’efficacité du codage/décodage convolutif dans un environnement de transmission bruité.
+
+
+
 
 ### **5. Simulations**
 
