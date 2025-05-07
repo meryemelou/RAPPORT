@@ -134,7 +134,7 @@ Grâce à cette simulation, nous avons pu **valider la cohérence des transferts
 
 Dans le cadre de ce projet, plusieurs scripts Python ont été utilisés pour établir une communication entre le PC et le FPGA via l'interface UART, gérer la transmission des données sous forme d'images, appliquer un bruit contrôlé et effectuer des opérations d'encodage et de décodage, notamment avec le Viterbi.
 
-#### **6.1 Connexion UART entre les PC et le FPGA**
+#### **7.1 Connexion UART entre les PC et le FPGA**
 
 La connexion entre le PC et le FPGA a été réalisée en utilisant la bibliothèque `serial` de Python, qui permet de configurer une interface série pour l'envoi et la réception de données via UART. La communication s'est effectuée à une vitesse de transmission de 921600 bauds, conformément à la configuration de l'UART sur le FPGA. Le script Python suivant a été utilisé pour envoyer des bits individuels au FPGA et recevoir les réponses encodées :
 
@@ -164,15 +164,15 @@ def receive_encoded():
 
 Ce script permet de transmettre un flux de bits, puis de recevoir des données encodées sous forme de deux bits (x1 et x2). Cette transmission est effectuée dans un format compatible avec l'encodeur Viterbi utilisé sur le FPGA.
 
-#### **6.2 Envoi et réception de l'image en trames**
+#### **7.2 Envoi et réception de l'image en trames**
 
 Les images étaient envoyées sous forme de trames de bits encodées à travers UART. Le processus a impliqué la conversion des images en données binaires, puis l'application d'un codage Viterbi avant de transmettre chaque bit au FPGA. Une fois l'image encodée, chaque octet était envoyé au FPGA, et l'encodage (utilisant la méthode Viterbi) était appliqué pour garantir la fiabilité des données transmises.
 
-#### **6.3 Ajout de bruit contrôlé (SNR configurable)**
+#### **7.3 Ajout de bruit contrôlé (SNR configurable)**
 
 Dans la simulation de canal, un bruit contrôlé a été ajouté pour simuler des perturbations dans la transmission des données. L'ajout de bruit est crucial pour tester la robustesse du système de transmission et la capacité du décodeur à récupérer correctement les données malgré des erreurs introduites par le canal. Bien que le bruit contrôlé n’ait pas été inclus directement dans le code que tu as fourni, des outils comme `numpy` et `random` peuvent être utilisés pour générer du bruit et modifier le signal reçu afin de tester la performance du décodeur Viterbi dans des conditions réelles de transmission.
 
-#### **6.4 Encodage et Décodage avec Viterbi**
+#### **7.4 Encodage et Décodage avec Viterbi**
 
 L'encodeur et le décodeur Viterbi ont été implémentés en Python pour correspondre exactement au comportement attendu sur le FPGA. Le décodeur Viterbi permet de récupérer les bits originaux à partir des bits reçus encodés, même en présence d'erreurs dues au bruit du canal. Voici un extrait du code utilisé pour l'implémentation de l'encodeur et du décodeur Viterbi :
 
@@ -215,7 +215,7 @@ def hard_viterbi_decode(encoded_bits):
 
 L'encodeur Viterbi est utilisé pour générer les bits encodés à partir des bits d'entrée. Une fois les bits reçus, le décodeur Viterbi applique une recherche de chemin pour corriger les erreurs potentielles et récupérer les bits originaux. Ce processus a été validé en comparant les bits décodés avec les bits d'origine.
 
-#### **6.5 Test de l'encodeur et du décodeur**
+#### **7.5 Test de l'encodeur et du décodeur**
 
 Pour valider l'ensemble du processus de transmission, nous avons testé l'encodeur et le décodeur en envoyant des séquences de bits connues, puis en vérifiant si les bits reçus correspondaient aux bits envoyés. Voici un extrait du test de comparaison des bits encodés :
 
