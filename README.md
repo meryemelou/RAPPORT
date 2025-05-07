@@ -20,7 +20,7 @@ La communication série entre les différents composants (émetteur, canal, réc
 
 Le démonstrateur repose sur une architecture en trois parties principales réparties sur trois plateformes FPGA Nexys 4, chacune connectée à un PC. La communication entre les différentes cartes se fait via l’interface UART. L’image transmise traverse successivement les étapes d’émission, de bruitage (canal) et de réception avec correction d’erreurs, chacune étant visualisable à l’écran PMOD OLED connecté à chaque carte.
 
-*(Insérer ici un diagramme bloc illustrant les 3 FPGA/PC, les connexions UART, les modules PMOD OLED, et les blocs fonctionnels : encodeur, canal bruité, décodeur.)*
+![Description de l'image](images/Screenshot 2025-05-07 at 15.53.45.png)
 
 
 
