@@ -47,9 +47,6 @@ Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC so
 
 
 
-Parfait, tu as déjà une bonne structure pour la partie 3 de ton rapport. Voici une version reformulée, cohérente avec ton projet de démonstrateur d’une chaîne de transmission d’image avec codes correcteurs d’erreurs. Je vais détailler **la fonctionnalité globale** en me basant sur les éléments que tu m’as donnés, et je te proposerai ensuite un exemple de texte que tu peux inclure directement dans ton rapport.
-
----
 
 ###  **3. Fonctionnalité globale du démonstrateur**
 
@@ -91,6 +88,20 @@ Le démonstrateur repose sur l’utilisation de cartes FPGA **Nexys A7**, équip
   * Réception UART.
   * Décodage Viterbi.
   * Affichage image sur écran PMOD RGB OLED.
+
+
+
+## **Fonctionnalité globale du démonstrateur**
+
+Le démonstrateur implémente un système complet de lecture et d’affichage d’image sur un écran connecté via un module PMOD. Son objectif principal est de parcourir une mémoire RAM contenant une image encodée en 1, 2, 4 ou 16 bits par pixel (BPP), de convertir si nécessaire les données en un format compatible avec l’affichage (RGB565 - 16 bits), puis de les transmettre ligne par ligne à l'écran.
+
+L'affichage est déclenché par un signal de contrôle (`enable_pmod`) qui active la lecture séquentielle des données. Pour chaque cycle d’horloge, l’adresse de lecture est générée automatiquement à partir des coordonnées de la matrice (`col_counter`, `row_counter`). Le système incrémente ces coordonnées pour parcourir l’image pixel par pixel, tout en envoyant la position (`pix_col`, `pix_row`) et la couleur du pixel (`pix_data_out`) à l’écran. Un signal `pix_write` valide chaque écriture.
+
+Le démonstrateur est conçu pour être générique, avec des paramètres configurables comme la largeur et la hauteur de l’écran, ainsi que la profondeur de couleur (BPP). Il supporte plusieurs formats d’image grâce à un bloc de transcodage intégré, qui convertit automatiquement les données issues de la RAM vers le format RGB565 utilisé pour l’affichage.
+
+Une logique de réinitialisation (`reset`) est également incluse, permettant de réinitialiser les compteurs et l’état interne du module à tout moment. À la fin de l’affichage complet de l’image (lorsque tous les pixels ont été envoyés), le module désactive automatiquement le signal de validation d’écriture et attend un nouveau déclenchement.
+
+
 
 
 
