@@ -129,35 +129,6 @@ Enfin, les octets corrigés sont envoyés vers un écran OLED connecté à la ca
 
 ---
 
-### **6. Description fonctionnelle des étapes**
-
-#### 6.1 Étape 1 – Affichage de l’image sur PMOD RGB OLED
-
-* Fichiers utilisés : `bitmap.vhd`, `image_display.vhd`, `uart_rc.vhd`, `uart_tx.vhd`
-* Envoi image → réception via UART → affichage OLED
-* Top-level intégré sur la carte Nexys A7
-
-#### 6.2 Étape 2 – Transmission de l’image entre trois PC (UART)
-
-* Rôle des 3 PC :
-
-  * PC1 = Émetteur
-  * PC2 = Canal (relai + bruit)
-  * PC3 = Récepteur
-* Scripts Python pour gérer l’UART :
-
-  * Configuration ports série
-  * Lecture/envoi/stockage
-* Test de bout en bout avec affichage final
-
-#### 6.3 Étape 3 – Transmission avec bruit, encodage et décodage
-
-* **Ajout de l’encodeur VHDL dans l’émetteur**
-* **Canal** : bruit simulé via script Python ou PC intermédaire
-* **Décodage par Viterbi sur le FPGA du récepteur**
-* **Affichage final de l’image débruitée sur OLED**
-
----
 
 ### **7. Rôle des scripts Python**
 
