@@ -245,11 +245,7 @@ print("✅ Match:", expected_encoded == actual_encoded)
 
 ### **7. Résultats et observations**
 
-Voici le paragraphe que tu pourrais rédiger pour la section **"7. Résultats et observations"** de ton rapport de soutenance :
 
----
-
-### **7. Résultats et observations**
 
 1. **Affichage réussi avec et sans bruit :**
    L'affichage de l'image a été réussi tant avec qu'avec bruit. Cependant, un problème de synchronisation a été initialement observé, où l'image devenait floue après chaque réinitialisation. Ce problème était dû à la configuration incorrecte du signal de réinitialisation et de l'activation du signal `enable` pour le PMOD. Une fois ces paramètres correctement ajustés, l'affichage a fonctionné comme prévu. En présence de bruit (ajout d'un bruit contrôlé via un SNR configurable), l'image est devenue presque entièrement floue, ce qui a bien illustré l'impact négatif du bruit sur la qualité de l'image.
