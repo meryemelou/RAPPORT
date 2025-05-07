@@ -260,7 +260,6 @@ print("✅ Match:", expected_encoded == actual_encoded)
    Les tests comparant la transmission de 1 bit contre 8 bits ont montré de bonnes performances pour les deux configurations. Toutefois, la transmission par blocs de 8 bits a présenté une meilleure robustesse et fiabilité, notamment face au bruit. En effet, l'usage de 8 bits à la fois a permis une récupération plus fiable des données et une qualité d'image supérieure par rapport à l'utilisation d'un seul bit à la fois.
 
 
-### **8. Conclusion**
 
 ### **8. Conclusion**
 
