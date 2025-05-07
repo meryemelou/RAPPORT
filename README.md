@@ -59,36 +59,17 @@ Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC so
    Une fois l’image convertie, elle est envoyée via une liaison UART depuis le PC vers le premier FPGA (FPGA Émetteur). Ce dernier reçoit les données série à l’aide d’un module `UART_RX` implémenté en VHDL.
 
 3. **Encodage & Canal bruité**
-   Sur le FPGA Émetteur, les données d’image sont encodées à l’aide d’un code de convolution. Ensuite, les données encodées sont transférées à un PC intermédiaire (ou un autre FPGA selon l’architecture finale) qui simule un canal bruité, en injectant un bruit gaussien selon un SNR réglable. Cela permet de simuler des conditions de transmission réalistes.
+   Sur le FPGA Émetteur, les données d’image sont encodées à l’aide d’un encodage Viterbi. Ensuite, les données encodées sont transférées à un PC intermédiaire connecté à un deuxième FPGA qui simule un canal bruité, en injectant un bruit gaussien selon un SNR réglable. Cela permet de simuler des conditions de transmission réalistes.
 
 4. **Réception & Décodage par Viterbi**
-   Les données bruitées sont transmises à un second FPGA (FPGA Récepteur) où un décodeur Viterbi (implémenté en VHDL) est utilisé pour corriger les erreurs de transmission. Ce décodage restitue une version corrigée de l’image.
+   Les données bruitées sont transmises à un troisième FPGA (FPGA Récepteur) où un décodeur Viterbi (implémenté en VHDL) est utilisé pour corriger les erreurs de transmission. Ce décodage restitue une version corrigée de l’image.
 
 5. **Affichage de l’image sur PMOD RGB OLED**
-   Enfin, l’image décodée est convertie et affichée sur un écran RGB OLED connecté en PMOD. Cela permet une visualisation directe du résultat, avec ou sans erreurs, selon le taux de bruit appliqué au canal.
+   À chaque étape, l’image est convertie et affichée sur un écran RGB OLED connecté en PMOD sur chaque FPGA. Cela permet une visualisation directe du résultat de chaque étape. 
 
 ####  Mise en œuvre réelle sur les cartes Nexys A7 :
 
 Le démonstrateur repose sur l’utilisation de cartes FPGA **Nexys A7**, équipées du FPGA **Artix-7**. Le projet est réparti sur trois cartes et/ou PC selon l’implémentation :
-
-* **Carte FPGA 1 – Émetteur** :
-
-  * Réception UART de l’image.
-  * Encodage Viterbi.
-  * Transmission UART vers le canal.
-
-* **PC intermédiaire – Canal** :
-
-  * Simulation du bruit (via script Python).
-  * Réglage du SNR.
-  * Transmission UART des données bruitées.
-
-* **Carte FPGA 2 – Récepteur** :
-
-  * Réception UART.
-  * Décodage Viterbi.
-  * Affichage image sur écran PMOD RGB OLED.
-
 
 
 ## **Fonctionnalité globale du démonstrateur**
