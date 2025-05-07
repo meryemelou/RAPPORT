@@ -243,7 +243,7 @@ print("✅ Match:", expected_encoded == actual_encoded)
 ```
 
 
-### **8. Résultats et observations**
+### **7. Résultats et observations**
 
 * Affichage réussi avec et sans bruit
 * Récupération correcte de l’image après décodage
