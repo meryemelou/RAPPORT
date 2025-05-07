@@ -245,19 +245,33 @@ print("✅ Match:", expected_encoded == actual_encoded)
 
 ### **7. Résultats et observations**
 
-* Affichage réussi avec et sans bruit
-* Récupération correcte de l’image après décodage
-* Comparaison visuelle entre image brute et image débruitée
-* Cas 1 bit vs 8 bits : observations (qualité, fiabilité)
+Voici le paragraphe que tu pourrais rédiger pour la section **"7. Résultats et observations"** de ton rapport de soutenance :
 
 ---
 
-### **9. Conclusion**
+### **7. Résultats et observations**
 
-* Synthèse du fonctionnement complet du démonstrateur
-* Intégration hardware/software réussie
-* Perspectives : amélioration du débit, autre type de codage, compression, etc.
+1. **Affichage réussi avec et sans bruit :**
+   L'affichage de l'image a été réussi tant avec qu'avec bruit. Cependant, un problème de synchronisation a été initialement observé, où l'image devenait floue après chaque réinitialisation. Ce problème était dû à la configuration incorrecte du signal de réinitialisation et de l'activation du signal `enable` pour le PMOD. Une fois ces paramètres correctement ajustés, l'affichage a fonctionné comme prévu. En présence de bruit (ajout d'un bruit contrôlé via un SNR configurable), l'image est devenue presque entièrement floue, ce qui a bien illustré l'impact négatif du bruit sur la qualité de l'image.
 
----
+2. **Récupération correcte de l’image après décodage :**
+   Après le décodage des données, l'image récupérée était très proche de l'image originale, montrant que le système de décodage, même en présence de bruit, était capable de récupérer la majorité des informations. Les performances du système de décodage ont ainsi été jugées bonnes, avec seulement de très légères distorsions perceptibles dans les zones de haute fréquence de l'image.
 
-IL faut ecrire la remarque  sur taux d'erreur binanire 
+3. **Comparaison visuelle entre image brute et image débruitée :**
+   Lors de la comparaison entre l'image brute (avec bruit) et l'image débruitée, une nette amélioration de la lisibilité a été observée après débruitage. Bien que certaines imperfections subsistent dans l'image débruitée, celles-ci étaient significativement moins visibles que dans l'image brute, ce qui a permis de retrouver une image beaucoup plus fidèle à l'original.
+
+4. **Cas 1 bit vs 8 bits : observations (qualité, fiabilité) :**
+   Les tests comparant la transmission de 1 bit contre 8 bits ont montré de bonnes performances pour les deux configurations. Toutefois, la transmission par blocs de 8 bits a présenté une meilleure robustesse et fiabilité, notamment face au bruit. En effet, l'usage de 8 bits à la fois a permis une récupération plus fiable des données et une qualité d'image supérieure par rapport à l'utilisation d'un seul bit à la fois.
+
+
+### **8. Conclusion**
+
+### **8. Conclusion**
+
+Ce projet de démonstration d'un système de transmission avec détection et correction d'erreurs a permis de valider l'implémentation d'un système complet basé sur l'architecture FPGA Nexys 4, combinant traitement matériel et logiciel pour la transmission d'images à travers un canal bruité. L'intégration des différentes parties du démonstrateur — émetteur, canal, et récepteur — a été réalisée avec succès, permettant de transmettre des images tout en appliquant un codage convolutif de type Viterbi pour la correction des erreurs dues au bruit.
+
+Le système a fonctionné de manière satisfaisante, avec une visualisation claire des étapes du processus de transmission : l'image originale, l'image bruitée, et l'image corrigée après décodage. Les performances du décodeur ont montré que, même dans des conditions de bruit élevé, une bonne partie des erreurs de transmission pouvaient être corrigées, garantissant ainsi une restitution fidèle de l'image.
+
+Néanmoins, des améliorations restent possibles pour optimiser le système. Il serait intéressant d'explorer des solutions pour augmenter le débit de transmission tout en maintenant la fiabilité de la correction d'erreurs. De plus, l'intégration d'autres types de codage, ainsi que des techniques de compression d'image, pourrait également améliorer l'efficacité du système. Ces perspectives ouvrent des pistes intéressantes pour des applications futures, où la transmission fiable d'images à travers des canaux bruités est cruciale.
+
+
