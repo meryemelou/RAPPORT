@@ -4,6 +4,44 @@
 
 ---
 
+#  Table des matières
+
+* [1. Introduction générale](#1-introduction-générale)
+* [2. Architecture globale du démonstrateur](#2-architecture-globale-du-démonstrateur)
+
+  * [2.1 Schéma global du système](#21-schéma-global-du-système)
+  * [2.2 Description fonctionnelle](#22-description-fonctionnelle)
+  * [2.3 Communication UART](#23-communication-uart)
+* [3. Fonctionnement du démonstrateur – Chaîne complète](#3-fonctionnement-du-démonstrateur--chaîne-complète)
+
+  * [3.1 Flux de données](#31-flux-de-données)
+  * [3.2 Implémentation sur FPGA Nexys A7](#32-implémentation-sur-fpga-nexys-a7)
+* [4. Description des modules VHDL](#4-description-des-modules-vhdl)
+
+  * [4.1 Émetteur (FPGA 1)](#41-émetteur-fpga-1)
+  * [4.2 Canal bruité (FPGA 2)](#42-canal-bruité-fpga-2)
+  * [4.3 Récepteur et décodage (FPGA 3)](#43-récepteur-et-décodage-fpga-3)
+* [5. Affichage d’image sur écran PMOD OLED](#5-affichage-dimage-sur-écran-pmod-oled)
+* [6. Modules VHDL détaillés](#6-modules-vhdl-détaillés)
+
+  * [6.1 Affichage](#61-affichage)
+  * [6.2 Encodage Viterbi](#62-encodage-viterbi)
+  * [6.3 Canal bruité (AWGN)](#63-canal-bruité-awgn)
+  * [6.4 Décodage Viterbi](#64-décodage-viterbi)
+* [7. Simulations VHDL](#7-simulations-vhdl)
+* [8. Scripts Python – Transmission UART](#8-scripts-python--transmission-uart)
+
+  * [8.1 Connexion UART](#81-connexion-uart)
+  * [8.2 Envoi/Réception de l’image](#82-envoiréception-de-limage)
+  * [8.3 Bruit et SNR simulé](#83-bruit-et-snr-simulé)
+  * [8.4 Encodeur/Décodeur Viterbi en Python](#84-encodeurdecodeur-viterbi-en-python)
+  * [8.5 Conversion RGB565](#85-conversion-rgb565)
+* [9. Résultats et observations](#9-résultats-et-observations)
+* [10. Conclusion et perspectives](#10-conclusion-et-perspectives)
+
+
+
+
 ### **1. Introduction générale**
 
 Ce document a pour objectif de présenter en détail le fonctionnement du démonstrateur d’erreurs conçu autour de la transmission d’images via un système émetteur-canal-récepteur. Ce projet a été implémenté sur des cartes FPGA Nexys 4 basées sur des puces Artix-7, en exploitant des modules PMOD, notamment l’écran RGB OLED, pour la visualisation des résultats.
