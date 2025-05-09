@@ -177,115 +177,115 @@ Grâce à cette simulation, nous avons pu **valider la cohérence des transferts
 
 ### **7. Rôle des scripts Python dans la transmission de l'image via UART**
 
-Dans le cadre de ce projet, plusieurs scripts Python ont été utilisés pour établir une communication entre le PC et le FPGA via l'interface UART, gérer la transmission des données sous forme d'images, appliquer un bruit contrôlé et effectuer des opérations d'encodage et de décodage, notamment avec le Viterbi.
 
-#### **7.1 Connexion UART entre les PC et le FPGA**
 
-La connexion entre le PC et le FPGA a été réalisée en utilisant la bibliothèque `serial` de Python, qui permet de configurer une interface série pour l'envoi et la réception de données via UART. La communication s'est effectuée à une vitesse de transmission de 921600 bauds, conformément à la configuration de l'UART sur le FPGA. Le script Python suivant a été utilisé pour envoyer des bits individuels au FPGA et recevoir les réponses encodées :
+
+Dans le cadre de ce projet, plusieurs scripts Python ont été développés pour gérer l’ensemble du processus de transmission d’images entre un PC et un FPGA via une interface UART. Ces scripts ont permis de :
+
+* Convertir une image en format compatible (RGB565),
+* Encapsuler les données à transmettre sous forme d’octets ou de bits,
+* Appliquer un codage convolutif (Viterbi) pour améliorer la robustesse face au bruit,
+* Simuler la communication série (UART),
+* Évaluer le comportement de l’encodeur/décodeur Viterbi.
+
+### 7.1 Connexion UART entre le PC et le FPGA
+
+La communication entre le PC et le FPGA a été réalisée via l'interface UART en utilisant la bibliothèque `serial` de Python. Le port série a été configuré à une vitesse de 921600 bauds, identique à celle définie dans le FPGA. Des fonctions de bas niveau ont permis l’envoi de bits ou d’octets ainsi que la réception de réponses encodées depuis le FPGA :
 
 ```python
-import serial
-import time
-
-# Configuration du port série
 ser = serial.Serial(port='/dev/ttyUSB1', baudrate=921600, timeout=1)
 
 def send_bit(bit):
-    byte_to_send = bit & 0x01  # Assurez-vous que c'est bien 0 ou 1
-    ser.write(bytes([byte_to_send]))  # Envoi du bit
-    print(f"Sent bit: {bit}")
+    ser.write(bytes([bit & 0x01]))
 
 def receive_encoded():
-    data = ser.read(1)  # Lecture de 1 octet
-    if len(data) == 0:
-        print("Timeout, no data received.")
-        return None
-    byte_received = data[0]
-    x1 = byte_received & 0x01
-    x2 = (byte_received >> 1) & 0x01
-    print(f"Received encoded bits: x1={x1}, x2={x2}")
-    return x1, x2
+    data = ser.read(1)
+    ...
 ```
 
-Ce script permet de transmettre un flux de bits, puis de recevoir des données encodées sous forme de deux bits (x1 et x2). Cette transmission est effectuée dans un format compatible avec l'encodeur Viterbi utilisé sur le FPGA.
+Cela a permis une communication directe avec l’encodeur ou le décodeur Viterbi implémenté en VHDL.
 
-#### **7.2 Envoi et réception de l'image en trames**
+### 7.2 Envoi et réception de l’image en trames
 
-Les images étaient envoyées sous forme de trames de bits encodées à travers UART. Le processus a impliqué la conversion des images en données binaires, puis l'application d'un codage Viterbi avant de transmettre chaque bit au FPGA. Une fois l'image encodée, chaque octet était envoyé au FPGA, et l'encodage (utilisant la méthode Viterbi) était appliqué pour garantir la fiabilité des données transmises.
+Les images ont été transformées en trames de bits ou d’octets, puis transmises au FPGA via UART. Le processus consiste à :
 
-#### **7.3 Ajout de bruit contrôlé (SNR configurable)**
+1. Convertir l’image en données binaires,
+2. Appliquer un codage Viterbi sur ces données,
+3. Transmettre les bits encodés,
+4. Réceptionner les données et les décoder sur FPGA ou sur PC.
 
-Dans la simulation de canal, un bruit contrôlé a été ajouté pour simuler des perturbations dans la transmission des données. L'ajout de bruit est crucial pour tester la robustesse du système de transmission et la capacité du décodeur à récupérer correctement les données malgré des erreurs introduites par le canal. Bien que le bruit contrôlé n’ait pas été inclus directement dans le code que tu as fourni, des outils comme `numpy` et `random` peuvent être utilisés pour générer du bruit et modifier le signal reçu afin de tester la performance du décodeur Viterbi dans des conditions réelles de transmission.
+Ce processus vise à simuler une chaîne complète de transmission numérique, avec ou sans canal bruité.
 
-#### **7.4 Encodage et Décodage avec Viterbi**
+### 7.3 Ajout de bruit contrôlé (SNR configurable)
 
-L'encodeur et le décodeur Viterbi ont été implémentés en Python pour correspondre exactement au comportement attendu sur le FPGA. Le décodeur Viterbi permet de récupérer les bits originaux à partir des bits reçus encodés, même en présence d'erreurs dues au bruit du canal. Voici un extrait du code utilisé pour l'implémentation de l'encodeur et du décodeur Viterbi :
+Dans le cadre des tests, un canal bruité peut être simulé par l’ajout d’erreurs artificielles aux bits transmis. Bien que le bruit n’ait pas encore été intégré directement dans les scripts, cela est facilement réalisable avec `numpy.random` pour perturber aléatoirement les bits en fonction d’un SNR donné. Ce mécanisme est essentiel pour tester la robustesse du décodage Viterbi.
+
+### 7.4 Encodage et décodage Viterbi
+
+Un code convolutif de contrainte $K = 3$ et de taux $1/2$ a été utilisé. Les scripts Python incluent à la fois un encodeur Viterbi (bit à bit ou par octet) et un décodeur basé sur l’algorithme de Viterbi.
+
+Voici un extrait du décodeur :
 
 ```python
 def hard_viterbi_decode(encoded_bits):
-    # Décode les bits reçus en utilisant l'algorithme Viterbi
-    # (implémentation simplifiée pour un code convolutif avec une contrainte de longueur 3 et un taux de 1/2)
-    K = 3
-    num_states = 2 ** (K - 1)
-    path_metrics = [float('inf')] * num_states
-    path_metrics[0] = 0  # Démarre depuis l'état 0
-    paths = [[] for _ in range(num_states)]
-
-    for i in range(0, len(encoded_bits), 2):
-        x1_recv = encoded_bits[i]
-        x2_recv = encoded_bits[i+1]
-
-        new_metrics = [float('inf')] * num_states
-        new_paths = [[] for _ in range(num_states)]
-
-        for prev_state in range(num_states):
-            if path_metrics[prev_state] == float('inf'):
-                continue
-
-            for bit_in in [0, 1]:
-                next_state = ((prev_state << 1) | bit_in) & 0b11
-                x1_expected, x2_expected = get_output_bits(prev_state, bit_in)
-                metric = path_metrics[prev_state] + int(x1_recv != x1_expected) + int(x2_recv != x2_expected)
-
-                if metric < new_metrics[next_state]:
-                    new_metrics[next_state] = metric
-                    new_paths[next_state] = paths[prev_state] + [bit_in]
-
-        path_metrics = new_metrics
-        paths = new_paths
-
-    min_state = path_metrics.index(min(path_metrics))
-    return paths[min_state]
+    ...
+    # Algorithme de recherche du chemin avec métrique minimale
+    ...
+    return best_path
 ```
 
-L'encodeur Viterbi est utilisé pour générer les bits encodés à partir des bits d'entrée. Une fois les bits reçus, le décodeur Viterbi applique une recherche de chemin pour corriger les erreurs potentielles et récupérer les bits originaux. Ce processus a été validé en comparant les bits décodés avec les bits d'origine.
-
-#### **7.5 Test de l'encodeur et du décodeur**
-
-Pour valider l'ensemble du processus de transmission, nous avons testé l'encodeur et le décodeur en envoyant des séquences de bits connues, puis en vérifiant si les bits reçus correspondaient aux bits envoyés. Voici un extrait du test de comparaison des bits encodés :
+Un encodeur octet-à-octet a également été utilisé pour simuler le comportement du FPGA :
 
 ```python
-# Exemple de séquence de bits
-test_bits = [1, 0, 1, 1, 0, 0, 1, 0]
-expected_encoded = viterbi_encode(test_bits)
-actual_encoded = []
-
-# Simulation de l'envoi et de la réception de bits
-for bit in test_bits:
-    ser.write(bytes([bit & 0x01]))  # Envoi du bit au FPGA
-    time.sleep(0.01)
-
-    response = ser.read(1)  # Lecture de la réponse
-    byte = response[0]
-    x1 = byte & 0x01
-    x2 = (byte >> 1) & 0x01
-    actual_encoded.extend([x1, x2])
-
-# Comparaison des résultats
-print("Expected encoding :", expected_encoded)
-print("FPGA returned      :", actual_encoded)
-print("✅ Match:", expected_encoded == actual_encoded)
+def viterbi_byte_encode(byte):
+    ...
+    return x1_byte, x2_byte
 ```
+
+Cela permet de comparer directement les résultats obtenus par le FPGA et ceux obtenus par le code Python.
+
+### 7.5 Tests et validation de l’encodeur/décodeur
+
+Des séquences binaires prédéfinies ont été envoyées au FPGA pour valider l’encodage. Les réponses ont été comparées à celles obtenues par l’encodeur Python. Des tests ont été réalisés à deux niveaux :
+
+* Encodage bit par bit (et réception de x1/x2)
+* Encodage d’un octet complet (et comparaison du byte encodé)
+
+Exemple de test par octet :
+
+```python
+test_byte = 0b11001011
+expected_x1, expected_x2 = viterbi_byte_encode(test_byte)
+ser.write(bytes([test_byte]))
+...
+assert received == expected_x1  # Ou x2, selon le mode
+```
+
+Les résultats ont montré une correspondance exacte, validant la cohérence entre l’encodeur FPGA et les modèles Python.
+
+### 7.6 Conversion d’image en format RGB565 et transmission UART
+
+Pour transmettre des images (par exemple à afficher sur un écran OLED), une conversion en format RGB565 (2 octets par pixel) a été réalisée. Le script Python utilise `OpenCV` pour :
+
+* Charger et redimensionner l’image (96×64 pixels),
+* La convertir en format RGB,
+* Extraire les composantes rouge, vert, bleu et les reformater en 16 bits.
+
+```python
+def convert_image_to_rgb565_bytes(image_path):
+    ...
+    return pixel_bytes
+```
+
+Ces données sont ensuite envoyées via UART au FPGA :
+
+```python
+def send_rgb565_over_uart(pixel_bytes, serial_port):
+    ...
+```
+
+Un fichier `.txt` contenant les données RGB565 est également généré pour vérification ou archivage.
+
 
 
 ### **8. Résultats et observations**
