@@ -31,7 +31,7 @@ Le démonstrateur a pour objectif de représenter une chaîne de communication n
 * **Émetteur (FPGA 1)**
   Le premier FPGA reçoit une image depuis un PC via UART. Cette image est d’abord affichée sur un écran OLED connecté à la carte pour visualiser la version originale. Ensuite, elle est encodée à l’aide d’un **codeur convolutif** (type Viterbi) et transmise à la deuxième carte FPGA par liaison série.
 
-* **Canal de transmission bruité (FPGA 2 / PC 2)**
+* **Canal de transmission bruité (FPGA 2)**
   La deuxième carte FPGA (ou le PC associé) reçoit les données encodées, puis applique un **bruit gaussien** avec un SNR contrôlable pour simuler un canal de transmission réel (bruit blanc additif). L’image bruitée est ensuite affichée pour montrer les erreurs introduites, puis transmise à la troisième carte.
 
 * **Récepteur (FPGA 3)**
