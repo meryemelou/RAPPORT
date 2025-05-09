@@ -129,6 +129,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
    * **`RAM_IMAGE.vhd`** : Module pour le stockage de l’image dans la RAM.
    * **`Image_Display.vhd`** : Module pour la gestion de l’affichage des pixels sur l'écran OLED RGB.
 
+   ![Image affichée sur le PMOD OLED](images/pmod_oled.jpeg)
 
 
 ### **Partie 2 : Encodage des données (Viterbi Encoder)**
