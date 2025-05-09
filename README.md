@@ -157,7 +157,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
    * **`viterbi_decoder.vhd`** : Module pour le décodage Viterbi des données reçues.
 
 
-
+![Schéma global du système](images/them.png)
 
 
 
