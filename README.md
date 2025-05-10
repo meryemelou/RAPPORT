@@ -162,10 +162,20 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
 ### **Partie 1 : Affichage de l'image sur un écran OLED RGB**
 
-1. **Fichier VHDL pour la gestion de l'affichage** :
 
-   * **`RAM_IMAGE.vhd`** : Module pour le stockage de l’image dans la RAM.
-   * **`Image_Display.vhd`** : Module pour la gestion de l’affichage des pixels sur l'écran OLED RGB.
+### **1. Fichiers VHDL pour la gestion de l'affichage**
+
+* **`RAM_IMAGE.vhd`** : Ce module gère le stockage de l’image dans une mémoire RAM interne au FPGA. Il reçoit les données d’image (pixels) et les organise ligne par ligne. La RAM est ensuite lue séquentiellement pour permettre un affichage synchronisé sur l’écran OLED.
+
+* **`Image_Display.vhd`** : Ce module est chargé d’envoyer les pixels à l’écran OLED RGB via le bus PMOD. Il génère les signaux de synchronisation nécessaires (`pix_row`, `pix_col`, `pix_write`, etc.) pour balayer l’image en mémoire et afficher chaque pixel dans l’ordre correct.
+
+* **`UART_RX.vhd`** : Module de réception UART qui permet de recevoir les octets de l’image envoyés depuis le PC. Il signale la réception valide d’un octet à l’aide du signal `data_valid`.
+
+* **`UART_TX.vhd`** : Ce module permet d’envoyer les données encodées (comme les octets Viterbi) à la carte suivante ou au PC via l’interface UART, en assurant la transmission série synchrone.
+
+* **`bitmap.vhd`** : Ce module effectue une conversion de format pour l’affichage, en particulier vers le format **RGB565** (16 bits par pixel), à partir d’une image binaire ou en niveaux de gris. Il permet d’adapter les données stockées dans la RAM pour l’écran RGB OLED.
+
+
 
    ![Image affichée sur le PMOD OLED](images/pmod_oled.jpeg)
 
