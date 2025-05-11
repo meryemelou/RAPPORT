@@ -188,7 +188,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
    * **`viterbi_encoder_8bits.vhd`** : Module pour l'encodage Viterbi à 8 bits.
 
-   ![Encodeur](images/encodd.png)
+   ![Encodeur](images/Encodeur_final.png)
 
 
 ### **Partie 3 : Simulation de bruit (Canal AWGN)**
@@ -206,7 +206,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
    * **`viterbi_decoder.vhd`** : Module pour le décodage Viterbi des données reçues.
 
 
-![Canal AWGN et décodeur](images/canal_decod.png)
+![Canal AWGN et décodeur](images/Decodeur_final.png)
 
 
 
