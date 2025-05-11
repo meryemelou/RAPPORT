@@ -187,6 +187,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 2. **Fichier VHDL pour l'encodeur Viterbi (8 bits)** :
 
    * **`viterbi_encoder_8bits.vhd`** : Module pour l'encodage Viterbi à 8 bits.
+   * **`data_adapter.vhd`** : Ce module effectue une transformation logique fixe de données codées sur 3 bits (data_in) vers une nouvelle représentation (data_out).
 
    ![Encodeur](images/Encodeur_final.png)
 
