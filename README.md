@@ -284,37 +284,8 @@ Les images ont été transformées en trames de bits ou d’octets, puis transmi
 3. Transmettre les bits encodés,
 4. Réceptionner les données et les décoder sur FPGA ou sur PC.
 
-Ce processus vise à simuler une chaîne complète de transmission numérique, avec ou sans canal bruité.
 
-### 7.3 Ajout de bruit contrôlé (SNR configurable)
-
-Dans le cadre des tests, un canal bruité peut être simulé par l’ajout d’erreurs artificielles aux bits transmis. Bien que le bruit n’ait pas encore été intégré directement dans les scripts, cela est facilement réalisable avec `numpy.random` pour perturber aléatoirement les bits en fonction d’un SNR donné. Ce mécanisme est essentiel pour tester la robustesse du décodage Viterbi.
-
-### 7.4 Encodage et décodage Viterbi
-
-Un code convolutif de contrainte $K = 3$ et de taux $1/2$ a été utilisé. Les scripts Python incluent à la fois un encodeur Viterbi (bit à bit ou par octet) et un décodeur basé sur l’algorithme de Viterbi.
-
-Voici un extrait du décodeur :
-
-```python
-def hard_viterbi_decode(encoded_bits):
-    ...
-    # Algorithme de recherche du chemin avec métrique minimale
-    ...
-    return best_path
-```
-
-Un encodeur octet-à-octet a également été utilisé pour simuler le comportement du FPGA :
-
-```python
-def viterbi_byte_encode(byte):
-    ...
-    return x1_byte, x2_byte
-```
-
-Cela permet de comparer directement les résultats obtenus par le FPGA et ceux obtenus par le code Python.
-
-### 7.5 Tests et validation de l’encodeur/décodeur
+### 7.3 Tests et validation de l’encodeur/décodeur
 
 Des séquences binaires prédéfinies ont été envoyées au FPGA pour valider l’encodage. Les réponses ont été comparées à celles obtenues par l’encodeur Python. Des tests ont été réalisés à deux niveaux :
 
@@ -328,7 +299,7 @@ test_byte = 0b11001011
 expected_x1, expected_x2 = viterbi_byte_encode(test_byte)
 ser.write(bytes([test_byte]))
 ...
-assert received == expected_x1  # Ou x2, selon le mode
+assert received == expected_x1  # Ou x2, selon enable
 ```
 
 Les résultats ont montré une correspondance exacte, validant la cohérence entre l’encodeur FPGA et les modèles Python.
