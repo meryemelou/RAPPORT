@@ -346,7 +346,8 @@ Un fichier `.txt` contenant les données RGB565 est également généré pour v�
    Lors de la comparaison entre l'image brute (avec bruit) et l'image débruitée, une nette amélioration de la lisibilité a été observée après débruitage. Bien que certaines imperfections subsistent dans l'image débruitée, celles-ci étaient significativement moins visibles que dans l'image brute, ce qui a permis de retrouver une image beaucoup plus fidèle à l'original.
 
 4. **Cas 1 bit vs 8 bits : observations (qualité, fiabilité) :**
-   Les tests comparant la transmission de 1 bit contre 8 bits ont montré de bonnes performances pour les deux configurations. Toutefois, la transmission par blocs de 8 bits a présenté une meilleure robustesse et fiabilité, notamment face au bruit. 
+   Les tests comparant la transmission de 1 bit contre 8 bits ont montré de bonnes performances pour les deux configurations. Toutefois, la transmission par blocs de 8 bits a présenté une meilleure robustesse et fiabilité, notamment face au bruit. On a fait le test sur la carte emetteur pour vérifier les octets encodées cela en utilisant un script python.
+   
 
 
 
