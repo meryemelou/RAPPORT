@@ -247,7 +247,7 @@ def receive_encoded():
     data = ser.read(1)
     ...
 
-
+```
 
 ### 7.2 Envoi et réception de l’image en trames
 
