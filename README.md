@@ -206,7 +206,9 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 2. **Fichier VHDL pour l'encodeur Viterbi (8 bits)** :
 
    * **`viterbi_encoder_8bits.vhd`** : Module pour l'encodage Viterbi à 8 bits.
-   * **`data_adapter.vhd`** : Ce module effectue une transformation logique fixe de données codées sur 3 bits (data_in) vers une nouvelle représentation (data_out).
+   * **`data_serializer.vhd`** : Le module data_serializer convertit des données parallèles (octets) en flux série. Il stocke les données en RAM, puis les envoie bit par bit en sortie. Il gère les pointeurs de lecture/écriture, un compteur de bits, et indique quand un bit est prêt à être lu. Certaines versions améliorent la gestion du buffer et le suivi des octets envoyés.
+
+
 
    ![Encodeur](images/Encodeur_final.png)
 
