@@ -150,8 +150,14 @@ on va suivre exactement les mêmes étapes que pour la première carte :
    ```bash
   python 2.py
   ```
+   Une image reconstructed.png va être créée dans le même dossier où se trouve 2.py et c'est celle qui contiendra l'image reconstruite.
 
-  Si on veut envoyer et afficher une deuxième image, fermer le terminal sur le PC 2 et supprimer le fichier `converted_image.txt` qui contient les données de l'image précédente, remettre le enable sur les deux cartes à 0 puis le remettre à 1, ensuite lancer l’envoi de la nouvelle image en exécutant 1.py sur le PC1.
+  Si on veut envoyer et afficher une deuxième image, fermer le terminal sur le PC 2 et supprimer le fichier `converted_image.txt` qui contient les données de l'image précédente, remettre le enable sur les deux cartes à 0 puis le remettre à 1, ensuite ouvrir un nouveau terminal sur le PC 2 et lancer la commande:
+  
+  ```bash
+  minicom -D /dev/ttyUSB0 -b 921600 -C converted_image.txt
+  ```
+  lancer l’envoi de la nouvelle image en exécutant 1.py sur le PC1.
   
 
 ###  **Conclusion**
