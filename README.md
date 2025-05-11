@@ -71,7 +71,7 @@ Le démonstrateur a pour objectif de représenter une chaîne de communication n
   Le premier FPGA reçoit une image depuis un PC via UART. Cette image est d’abord affichée sur un écran OLED connecté à la carte pour visualiser la version originale. Ensuite, elle est encodée à l’aide d’un **codeur convolutif** (type Viterbi) et transmise à la deuxième carte FPGA par liaison série.
 
 * **Canal de transmission bruité (FPGA 2)**
-  La deuxième carte FPGA (ou le PC associé) reçoit les données encodées, puis applique un **bruit gaussien** avec un SNR contrôlable pour simuler un canal de transmission réel (bruit blanc additif). L’image bruitée est ensuite affichée pour montrer les erreurs introduites, puis transmise à la troisième carte.
+  La deuxième carte FPGA reçoit les données encodées, puis applique un **bruit gaussien** avec un SNR contrôlable pour simuler un canal de transmission réel (bruit blanc additif). L’image bruitée est ensuite affichée pour montrer les erreurs introduites, puis transmise à la troisième carte.
 
 * **Récepteur (FPGA 3)**
   La troisième carte reçoit les données bruitées. Un **décodeur Viterbi** permet de corriger les erreurs induites par le canal. L’image finale décodée est affichée à l’écran OLED, ce qui permet de comparer visuellement l’image originale, bruitée et corrigée.
@@ -105,11 +105,6 @@ Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC so
 
 5. **Affichage de l’image sur PMOD RGB OLED**
    À chaque étape, l’image est convertie et affichée sur un écran RGB OLED connecté en PMOD sur chaque FPGA. Cela permet une visualisation directe du résultat de chaque étape. 
-
-####  Mise en œuvre réelle sur les cartes Nexys A7 :
-
-Le démonstrateur repose sur l’utilisation de cartes FPGA **Nexys A7**, équipées du FPGA **Artix-7**. Le projet est réparti sur trois cartes et/ou PC selon l’implémentation :
-
 
 
 
@@ -219,18 +214,14 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
 
 
-Afin de valider le bon fonctionnement de notre système de transmission de données, une **simulation pour chaquepartie  a été réalisée** à l’aide d’un banc d’essai VHDL. Ces fichiers   simulent l’interconnexion des différents blocs du système, incluant l’encodage convolutif, l’ajout de bruit contrôlé via un paramètre `snr`, et le décodage Viterbi. Cette simulation permet de vérifier **le comportement temporel et logique** de l’ensemble du système sans recourir immédiatement au matériel FPGA.
+Afin de valider le bon fonctionnement de notre système de transmission de données, une (simulation pour chaque partie  a été réalisée) à l’aide d’un banc d’essai VHDL. Ces fichiers   simulent l’interconnexion des différents blocs du système, incluant l’encodage convolutif, l’ajout de bruit contrôlé via un paramètre `snr`, et le décodage Viterbi. Cette simulation permet de vérifier **le comportement temporel et logique** de l’ensemble du système sans recourir immédiatement au matériel FPGA.
 
 Le `testbench` génère un **signal d’horloge (clk)** avec une période définie (10 ns), simule un **reset** initial, puis active progressivement les signaux de contrôle (`enable`, `dat`, `snr`) dans un scénario temporel réaliste. Le signal `snr` est configuré à sa valeur maximale (`"111111"`) pour observer le comportement du système dans un environnement fortement bruité. Le banc d’essai permet de vérifier que les données sont correctement transmises, encodées, perturbées par un bruit simulé, puis **corrigées par le décodeur Viterbi**.
-
-Grâce à ces simulations, nous avons pu **valider la cohérence des transferts de données vers la RAM** pour l’affichage, ainsi que le bon fonctionnement des modules d’**encodage** et de **décodage**. Elle nous a permis de détecter et corriger d’éventuelles erreurs de synchronisation ou de logique, avant l’implémentation matérielle sur les FPGA.
-
 
 
 
 
 ### **7. Rôle des scripts Python dans la transmission de l'image via UART**
-
 
 
 
@@ -255,9 +246,8 @@ def send_bit(bit):
 def receive_encoded():
     data = ser.read(1)
     ...
-```
 
-Cela a permis une communication directe avec l’encodeur ou le décodeur Viterbi implémenté en VHDL.
+
 
 ### 7.2 Envoi et réception de l’image en trames
 
