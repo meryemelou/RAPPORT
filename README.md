@@ -120,7 +120,7 @@ Le rôle principal de l’émetteur est d’assurer la réception, l’encodage 
 Ensuite, chaque octet est encodé bit par bit à l’aide d’un **codeur convolutif** (Viterbi encoder), dont l’objectif est d’introduire de la redondance pour rendre la transmission plus robuste face aux erreurs. Le module `encode8` effectue ce traitement : il extrait chaque bit de l’octet, l’encode à l’aide d’un module `viterbi_encoder`, puis génère deux octets de sortie (`x1_byte`, `x2_byte`) correspondant aux deux symboles codés. Ce mécanisme permet de doubler les données à transmettre, mais augmente fortement la capacité de correction au niveau du récepteur. Une fois le codage terminé, les données sont prêtes à être transmises à la carte suivante via une liaison série.
 
 ![Architecture de l'émetteur](images/encodeur.png)
-
+![Architecture de l'émetteur](images/encodeur8.png)
 
 ### **Canal de transmission bruité (FPGA 2)**
 
