@@ -54,7 +54,7 @@ La communication série entre les différents composants (émetteur, canal, réc
 
 ## **2. Architecture globale du démonstrateur**
 
-#### **Figure schématique globale du système**
+### **Figure schématique globale du système**
 
 Le démonstrateur repose sur une architecture en trois parties principales réparties sur trois plateformes FPGA Nexys 4, chacune connectée à un PC. La communication entre les différentes cartes se fait via l’interface UART. L’image transmise traverse successivement les étapes d’émission, de bruitage (canal) et de réception avec correction d’erreurs, chacune étant visualisable à l’écran PMOD OLED connecté à chaque carte.
 
@@ -63,7 +63,7 @@ Le démonstrateur repose sur une architecture en trois parties principales répa
 
 
 
-#### **Description globale de l’architecture**
+### **Description globale de l’architecture**
 
 Le démonstrateur a pour objectif de représenter une chaîne de communication numérique avec visualisation de l'effet des erreurs de transmission et de leur correction sur une image.
 
@@ -77,7 +77,7 @@ Le démonstrateur a pour objectif de représenter une chaîne de communication n
   La troisième carte reçoit les données bruitées. Un **décodeur Viterbi** permet de corriger les erreurs induites par le canal. L’image finale décodée est affichée à l’écran OLED, ce qui permet de comparer visuellement l’image originale, bruitée et corrigée.
 
 
-#### **Communication UART entre les blocs**
+### **Communication UART entre les blocs**
 
 Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC sont réalisés via des interfaces UART, implémentées en VHDL. Ces liaisons série permettent un transfert de données simple, synchrone et efficace, facilitant le test et la validation de chaque étage indépendamment. L’ensemble de l’architecture est modulaire, ce qui permet de tester séparément l’émission, le canal et la réception.
 
@@ -89,7 +89,7 @@ Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC so
 
 ##  **3. Fonctionnalité globale du démonstrateur**
 
-####  Description du flux de données de bout en bout :
+###  Description du flux de données de bout en bout :
 
 1. **Lecture de l’image**
    L’image à transmettre peut être dans différents formats standards (comme PNG, BMP, JPG, etc.). Un script Python est utilisé pour la convertir dans un format exploitable par le FPGA, généralement en données brutes (bitmap binaire). Ce traitement permet de découper et organiser les pixels afin qu'ils soient transmissibles via une liaison série UART.
@@ -139,7 +139,7 @@ Enfin, les octets corrigés sont envoyés vers un écran OLED connecté à la ca
 ![Décoration](deco.png)
 
 
-## **Affichage de l'image sur le PMOD OLED**
+### **Affichage de l'image sur le PMOD OLED**
 
 Le démonstrateur implémente un système complet de lecture et d’affichage d’image sur un écran connecté via un module PMOD sur chaque FPGA. Son objectif principal est de parcourir une mémoire RAM contenant une image encodée en 1, 2, 4 ou 16 bits par pixel (BPP), de convertir si nécessaire les données en un format compatible avec l’affichage (RGB565 - 16 bits), puis de les transmettre ligne par ligne à l'écran.
 
