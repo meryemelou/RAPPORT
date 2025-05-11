@@ -42,7 +42,7 @@
 
 
 
-### **1. Introduction générale**
+## **1. Introduction générale**
 
 Ce document a pour objectif de présenter en détail le fonctionnement du démonstrateur d’erreurs conçu autour de la transmission d’images via un système émetteur-canal-récepteur. Ce projet a été implémenté sur des cartes FPGA Nexys 4 basées sur des puces Artix-7, en exploitant des modules PMOD, notamment l’écran RGB OLED, pour la visualisation des résultats.
 
@@ -52,7 +52,7 @@ La communication série entre les différents composants (émetteur, canal, réc
 
 
 
-### **2. Architecture globale du démonstrateur**
+## **2. Architecture globale du démonstrateur**
 
 #### **Figure schématique globale du système**
 
@@ -87,7 +87,7 @@ Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC so
 
 
 
-###  **3. Fonctionnalité globale du démonstrateur**
+##  **3. Fonctionnalité globale du démonstrateur**
 
 ####  Description du flux de données de bout en bout :
 
@@ -108,7 +108,7 @@ Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC so
 
 
 
-### **4. Description des modules VHDL**
+## **4. Description des modules VHDL**
 
 
 ## **Fonctionnalité globale de l’émetteur, du canal et du récepteur**
@@ -154,7 +154,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
 
 
-### **5. Description des modules VHDL détaillée**
+## **5. Description des modules VHDL détaillée**
 
 
 
@@ -210,7 +210,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
 
 
-### **6. Simulations**
+## **6. Simulations**
 
 
 
@@ -221,7 +221,7 @@ Le `testbench` génère un **signal d’horloge (clk)** avec une période défin
 
 
 
-### **7. Rôle des scripts Python dans la transmission de l'image via UART**
+## **7. Rôle des scripts Python dans la transmission de l'image via UART**
 
 
 
@@ -332,7 +332,7 @@ Un fichier `.txt` contenant les données RGB565 est également généré pour v�
 
 
 
-### **8. Résultats et observations**
+## **8. Résultats et observations**
 
 
 
@@ -350,7 +350,7 @@ Un fichier `.txt` contenant les données RGB565 est également généré pour v�
 
 
 
-### **9. Conclusion**
+## **9. Conclusion**
 
 Ce projet de démonstration d'un système de transmission avec détection et correction d'erreurs a permis de valider l'implémentation d'un système complet basé sur l'architecture FPGA Nexys 4, combinant traitement matériel et logiciel pour la transmission d'images à travers un canal bruité. L'intégration des différentes parties du démonstrateur — émetteur, canal, et récepteur — a été réalisée avec succès, permettant de transmettre des images tout en appliquant un codage convolutif de type Viterbi pour la correction des erreurs dues au bruit.
 
