@@ -209,6 +209,9 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
    * **`data_serializer.vhd`** : Le module data_serializer convertit des données parallèles (octets) en flux série. Il stocke les données en RAM, puis les envoie bit par bit en sortie. Il gère les pointeurs de lecture/écriture, un compteur de bits, et indique quand un bit est prêt à être lu. Certaines versions améliorent la gestion du buffer et le suivi des octets envoyés.
 
 
+Nous avons utilisé le module `uart_rx` pour la réception des données série depuis l'extérieur. Ensuite, le module `uart_tx` a été utilisé pour la transmission, mais uniquement à des fins de test. Pour l'envoi réel des informations, nous avons ajouté deux modules supplémentaires : `uart_tx1` et `uart_tx2`, dédiés respectivement à l'envoi vers différents périphériques.
+
+
 
    ![Encodeur](images/Encodeur_final.png)
 
