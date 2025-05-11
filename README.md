@@ -62,6 +62,29 @@ Le démonstrateur repose sur une architecture en trois parties principales répa
 
 
 
+## Répartition des Tâches
+
+Le projet a été réalisé en binôme, avec une répartition claire des responsabilités afin d'assurer une progression efficace et parallèle des différentes parties du système.
+
+#### Binôme 1(Yassine Hamioui, Hamza El Hamraoui)
+
+* **Communication UART entre les cartes** : Mise en place de la communication série (UART) entre les deux FPGA à l’aide de scripts Python pour l’envoi et la réception des données.
+* **Décodeur 8 bits** :
+
+  * Conception initiale d’un décodeur sur 1 bit pour valider le principe de fonctionnement.
+  * Extension à un décodeur 8 bits pour traiter les données complètes.
+  * Intégration dans le FPGA1 pour permettre l'envoi d’une image bruitée via UART, suivie de son décodage.
+
+#### Binôme 2( Meryem Elouassai, Marouane Lambarki)
+
+* **Affichage d’image sur l’écran PMOD OLED** : Développement de la logique d’affichage pour visualiser les données reçues après traitement.
+* **Encodage des données transmises par UART** :
+
+  * Début du développement avec un encodage sur 1 bit.
+  * Passage à un encodage sur 8 bits pour correspondre à la taille de l'image.
+  * Modification du bloc sur le FPGA1 afin de permettre l'encodage des données en temps réel avant transmission.
+
+
 
 ### **Description globale de l’architecture**
 
