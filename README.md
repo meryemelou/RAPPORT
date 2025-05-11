@@ -62,6 +62,23 @@ Le démonstrateur repose sur une architecture en trois parties principales répa
 
 
 
+
+
+### **Description globale de l’architecture**
+
+Le démonstrateur a pour objectif de représenter une chaîne de communication numérique avec visualisation de l'effet des erreurs de transmission et de leur correction sur une image.
+
+* **Émetteur (FPGA 1)**
+  Le premier FPGA reçoit une image depuis un PC via UART. Cette image est d’abord affichée sur un écran OLED connecté à la carte pour visualiser la version originale. Ensuite, elle est encodée à l’aide d’un **codeur convolutif** (type Viterbi) et transmise à la deuxième carte FPGA par liaison série.
+
+* **Canal de transmission bruité (FPGA 2)**
+  La deuxième carte FPGA reçoit les données encodées, puis applique un **bruit gaussien** avec un SNR contrôlable pour simuler un canal de transmission réel (bruit blanc additif). L’image bruitée est ensuite affichée pour montrer les erreurs introduites, puis transmise à la troisième carte.
+
+* **Récepteur (FPGA 3)**
+  La troisième carte reçoit les données bruitées. Un **décodeur Viterbi** permet de corriger les erreurs induites par le canal. L’image finale décodée est affichée à l’écran OLED, ce qui permet de comparer visuellement l’image originale, bruitée et corrigée.
+
+
+
 ## Répartition des Tâches
 
 Le projet a été réalisé en binôme, avec une répartition claire des responsabilités afin d'assurer une progression efficace et parallèle des différentes parties du système.
@@ -83,27 +100,6 @@ Le projet a été réalisé en binôme, avec une répartition claire des respons
   * Début du développement avec un encodage sur 1 bit.
   * Passage à un encodage sur 8 bits pour correspondre à la taille de l'image.
   * Modification du bloc sur le FPGA1 afin de permettre l'encodage des données en temps réel avant transmission.
-
-
-
-### **Description globale de l’architecture**
-
-Le démonstrateur a pour objectif de représenter une chaîne de communication numérique avec visualisation de l'effet des erreurs de transmission et de leur correction sur une image.
-
-* **Émetteur (FPGA 1)**
-  Le premier FPGA reçoit une image depuis un PC via UART. Cette image est d’abord affichée sur un écran OLED connecté à la carte pour visualiser la version originale. Ensuite, elle est encodée à l’aide d’un **codeur convolutif** (type Viterbi) et transmise à la deuxième carte FPGA par liaison série.
-
-* **Canal de transmission bruité (FPGA 2)**
-  La deuxième carte FPGA reçoit les données encodées, puis applique un **bruit gaussien** avec un SNR contrôlable pour simuler un canal de transmission réel (bruit blanc additif). L’image bruitée est ensuite affichée pour montrer les erreurs introduites, puis transmise à la troisième carte.
-
-* **Récepteur (FPGA 3)**
-  La troisième carte reçoit les données bruitées. Un **décodeur Viterbi** permet de corriger les erreurs induites par le canal. L’image finale décodée est affichée à l’écran OLED, ce qui permet de comparer visuellement l’image originale, bruitée et corrigée.
-
-
-### **Communication UART entre les blocs**
-
-Les échanges de données entre les différentes cartes FPGA et entre FPGA/PC sont réalisés via des interfaces UART, implémentées en VHDL. Ces liaisons série permettent un transfert de données simple, synchrone et efficace, facilitant le test et la validation de chaque étage indépendamment. L’ensemble de l’architecture est modulaire, ce qui permet de tester séparément l’émission, le canal et la réception.
-
 
 
 
