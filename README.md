@@ -33,9 +33,8 @@
 
   * [8.1 Connexion UART](#81-connexion-uart)
   * [8.2 Envoi/Réception de l’image](#82-envoiréception-de-limage)
-  * [8.3 Bruit et SNR simulé](#83-bruit-et-snr-simulé)
-  * [8.4 Encodeur/Décodeur Viterbi en Python](#84-encodeurdecodeur-viterbi-en-python)
-  * [8.5 Conversion RGB565](#85-conversion-rgb565)
+  * [8.3 Encodeur/Décodeur Viterbi en Python](#84-encodeurdecodeur-viterbi-en-python)
+  * [8.4 Conversion RGB565](#85-conversion-rgb565)
 * [9. Résultats et observations](#9-résultats-et-observations)
 * [10. Conclusion et perspectives](#10-conclusion-et-perspectives)
 
