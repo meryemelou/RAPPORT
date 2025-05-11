@@ -94,7 +94,7 @@ Le projet a été réalisé en binôme, avec une répartition claire des respons
 
 #### Binôme 2( Meryem Elouassai, Marouane Lambarki)
 
-* **Affichage d’image sur l’écran PMOD OLED** : Développement de la logique d’affichage pour visualiser les données reçues après traitement.
+* **Affichage d’image sur l’écran PMOD OLED** : Développement de la logique d’affichage pour visualiser l'image.
 * **Encodage des données transmises par UART** :
 
   * Début du développement avec un encodage sur 1 bit.
