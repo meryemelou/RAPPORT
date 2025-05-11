@@ -304,7 +304,7 @@ assert received == expected_x1  # Ou x2, selon enable
 
 Les résultats ont montré une correspondance exacte, validant la cohérence entre l’encodeur FPGA et les modèles Python.
 
-### 7.6 Conversion d’image en format RGB565 et transmission UART
+### 7.4 Conversion d’image en format RGB565 et transmission UART
 
 Pour transmettre des images (par exemple à afficher sur un écran OLED), une conversion en format RGB565 (2 octets par pixel) a été réalisée. Le script Python utilise `OpenCV` pour :
 
