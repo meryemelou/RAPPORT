@@ -114,7 +114,7 @@ on va suivre exactement les mêmes étapes que pour la première carte :
      De même pour TX2 avec RX2, on prend un fil de connexion et on branche les pin 2 de chaque PMOD Header JD des FPGA.
      Puis prendre un autre fil de connexion et brancher les GND (ground) des deux PMOD Header JD.
      Voici une illustration du PMOD Header pour repérer les pins :
-     ![PMOD Header](PMOD_Header.png)
+     ![PMOD Header](images/PMOD_Header.png)
 
 ###  Etape 4 : PC 2:
 
@@ -141,7 +141,7 @@ on va suivre exactement les mêmes étapes que pour la première carte :
   On choisira quelle image et quel port de communication.
 
   Puis On attend de voir l'image affichée sur les PMOD OLED des deux cartes comme cet exemple:
-   ![Image affichée](affichage_image.jpeg)
+   ![Image affichée](images/affichage_image.jpeg)
 
    ###  Etape 7 : Sur le PC 2:
 
