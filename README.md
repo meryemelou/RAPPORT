@@ -225,7 +225,7 @@ Une logique de réinitialisation (`reset`) est également incluse, permettant de
 
 1. **Fichier VHDL pour le décodeur Viterbi** :
 
-   * **`viterbi_decoder.vhd`** : Module pour le décodage Viterbi des données reçues.
+   * **`viterbi_decoder.vhd`** : Ce module effectue le décodage Viterbi pour des données convolutivement encodées, il reconstitue les bits d’origine à partir d’un flux de données encodées bruitées.
    * **`data_adapter.vhd`** : Ce module effectue une transformation logique fixe de données codées sur 3 bits (data_in) vers une nouvelle représentation (data_out).
 
 
