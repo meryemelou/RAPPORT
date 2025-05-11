@@ -112,8 +112,8 @@ on va suivre exactement les mêmes étapes que pour la première carte :
    * **PMOD RGB OLED :** L'écran PMOD RGB OLED doit être connecté au port **PMOD Header JB** sur chacune des cartes
    * **Fils de connections entre les cartes :** On prend un fil de connexion et on branche TX1 avec RX1, tel que TX1 est sur le pin 1 du PMOD Header JD du FPGA1 sur le PC1 et RX1 est sur le même pin du même PMOD Header du FPGA2 sur le PC2.
      De même pour TX2 avec RX2, on prend un fil de connexion et on branche les pin 2 de chaque PMOD Header JD des FPGA.
-     Puis prendre un autre fil de connexion et brancher les GND (ground) des deux PMOD Header JD.
-     Voici une illustration du PMOD Header pour repérer les pins :
+     Puis prendre un autre fil de connexion et brancher le GND (ground) du PMOD Header JD du premier FPGA avec le GND du PMOD Header JD du deuxième FPGA .
+     Voici une illustration du PMOD Header pour repérer les pins et le Ground :
      ![PMOD Header](images/PMOD_Header.png)
 
 ###  Etape 4 : PC 2:
